@@ -1,11 +1,15 @@
 pipeline {
- agent any
-
+ agent {
+    docker {
+      image 'abhishekf5/maven-abhishek-docker-agent:v1'
+      args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+    }
+  }
   stages {
-    stage('Build Docker Image') {
+    stage('Checkout') {
       steps {
-        sh 'docker --version'
-        sh 'docker build -t nijesh/ultimate-cicd:1 java-maven-sonar-argocd-helm-k8s/spring-boot-app'
+        sh 'echo passed'
+        //git branch: 'main', url: 'https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero.git'
       }
     }
     stage('Build and Test') {
