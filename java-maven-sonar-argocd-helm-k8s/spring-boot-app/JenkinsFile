@@ -24,6 +24,7 @@ pipeline {
         sh 'java -version'
         sh 'mvn -version'
         sh 'echo JAVA_HOME=$JAVA_HOME'
+        which java
       }
     }
     stage('Static Code Analysis') {
