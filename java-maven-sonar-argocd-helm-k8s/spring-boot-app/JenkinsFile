@@ -1,15 +1,22 @@
 pipeline {
-  agent any
-
-  environment {
-    PATH = "/usr/bin:/bin:/usr/local/bin:${env.PATH}"
+ agent {
+    docker {
+      image 'maven:3.9.6-eclipse-temurin-17'
+      args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+    }
   }
-
   stages {
-    stage('Test Docker') {
+    stage('Checkout') {
       steps {
-        sh 'docker --version'
-        sh 'which docker'
+        sh 'echo passed'
+        //git branch: 'main', url: 'https://github.com/NijeshShtha/Jenkins-Zero-To-Hero.git'
+      }
+    }
+    stage('Debug') {
+      steps {
+        sh 'echo $PATH'
+        sh 'which docker || true'
+        sh 'ls -l /usr/bin/docker'
       }
     }
     stage('Build and Test') {
